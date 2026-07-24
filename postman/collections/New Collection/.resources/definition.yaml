@@ -1,0 +1,6 @@
+$kind: collection
+name: New Collection
+scripts:
+  - type: http:beforeRequest
+    code: "http://localhost:"
+    language: text/javascript

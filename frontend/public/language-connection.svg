@@ -1,0 +1,46 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1200" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#12351E"/>
+      <stop offset="1" stop-color="#071B10"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="220" y1="200" x2="980" y2="680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22C55E"/>
+      <stop offset="1" stop-color="#5EEAD4"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#000" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="900" rx="42" fill="url(#background)"/>
+  <circle cx="170" cy="145" r="120" fill="#22C55E" fill-opacity=".08"/>
+  <circle cx="1040" cy="700" r="180" fill="#2DD4BF" fill-opacity=".07"/>
+  <path d="M318 440C430 288 666 287 830 424" stroke="url(#glow)" stroke-width="12" stroke-linecap="round" stroke-dasharray="18 22" opacity=".8"/>
+  <path d="M362 565C523 693 744 664 857 512" stroke="#34D399" stroke-width="8" stroke-linecap="round" stroke-dasharray="12 22" opacity=".55"/>
+  <g filter="url(#shadow)">
+    <rect x="160" y="280" width="285" height="222" rx="35" fill="#F8FAFC"/>
+    <path d="M226 454L208 530L294 494" fill="#F8FAFC"/>
+    <circle cx="250" cy="372" r="35" fill="#F97316"/>
+    <path d="M230 373H270M250 353V393" stroke="white" stroke-width="8" stroke-linecap="round"/>
+    <rect x="304" y="346" width="92" height="17" rx="8.5" fill="#1F2937" opacity=".85"/>
+    <rect x="304" y="383" width="60" height="14" rx="7" fill="#64748B"/>
+    <rect x="226" y="429" width="160" height="14" rx="7" fill="#CBD5E1"/>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="750" y="402" width="285" height="222" rx="35" fill="#ECFDF5"/>
+    <path d="M971 576L991 651L904 616" fill="#ECFDF5"/>
+    <circle cx="840" cy="494" r="35" fill="#2563EB"/>
+    <path d="M821 495H859M840 475V513" stroke="white" stroke-width="8" stroke-linecap="round"/>
+    <rect x="894" y="468" width="92" height="17" rx="8.5" fill="#1F2937" opacity=".85"/>
+    <rect x="894" y="505" width="60" height="14" rx="7" fill="#64748B"/>
+    <rect x="816" y="551" width="160" height="14" rx="7" fill="#A7F3D0"/>
+  </g>
+  <g transform="translate(510 365)" filter="url(#shadow)">
+    <circle cx="90" cy="90" r="88" fill="#22C55E"/>
+    <path d="M58 90C58 72.327 72.327 58 90 58C107.673 58 122 72.327 122 90C122 107.673 107.673 122 90 122C72.327 122 58 107.673 58 90Z" stroke="white" stroke-width="7"/>
+    <path d="M90 58C102 71 108 82 108 90C108 98 102 109 90 122C78 109 72 98 72 90C72 82 78 71 90 58Z" stroke="white" stroke-width="7"/>
+    <path d="M58 90H122" stroke="white" stroke-width="7"/>
+  </g>
+  <text x="600" y="765" text-anchor="middle" fill="#F8FAFC" font-family="Arial, sans-serif" font-size="44" font-weight="700">Connect. Practice. Grow.</text>
+  <text x="600" y="815" text-anchor="middle" fill="#BBF7D0" font-family="Arial, sans-serif" font-size="24">Language partners are only one conversation away.</text>
+</svg>

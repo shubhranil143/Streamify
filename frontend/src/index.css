@@ -1,0 +1,229 @@
+/* stylelint-disable at-rule-no-unknown, unknownAtRules */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* stylelint-enable at-rule-no-unknown, unknownAtRules */
+
+/* ===== Global Styles ===== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-base-100 text-base-content;
+  }
+}
+
+/* ===== Animations ===== */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(var(--color-primary), 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(var(--color-primary), 0.8);
+  }
+}
+
+/* ===== Component Styles ===== */
+
+/* Cards */
+.card {
+  @apply transition-all duration-300;
+}
+
+.card:hover {
+  @apply shadow-lg;
+}
+
+/* Buttons */
+.btn {
+  @apply transition-all duration-200;
+}
+
+.btn:active {
+  @apply scale-95;
+}
+
+/* Badges */
+.badge {
+  @apply transition-colors duration-200;
+}
+
+/* Inputs */
+.input,
+.textarea,
+.select {
+  @apply transition-all duration-200;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  @apply border-primary;
+}
+
+/* Avatar */
+.avatar {
+  @apply transition-transform duration-300;
+}
+
+.avatar:hover {
+  @apply scale-105;
+}
+
+/* ===== Stream Chat Custom Styles ===== */
+
+.str-chat__channel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--fallback-b1) 0%, var(--fallback-b2) 100%);
+  height: 100%;
+}
+
+.str-chat__container {
+  max-width: 1200px;
+  width: 100%;
+  height: 80% !important;
+  margin: 0 auto !important;
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.str-chat__list {
+  background-color: var(--fallback-b1);
+  padding: 12px;
+}
+
+.str-chat__list-notifications {
+  display: none;
+}
+
+.str-chat__message-input {
+  border-top: 1px solid var(--fallback-bc);
+  background-color: var(--fallback-b1);
+}
+
+.str-chat__message {
+  animation: slideInUp 0.3s ease-out;
+}
+
+.str-chat__message-text {
+  @apply rounded-lg px-4 py-2 leading-relaxed;
+}
+
+.str-chat__message--left .str-chat__message-text {
+  @apply bg-base-200;
+}
+
+.str-chat__message--right .str-chat__message-text {
+  @apply bg-primary text-primary-content;
+}
+
+/* ===== Utility Animations ===== */
+
+.animate-slide-in-up {
+  animation: slideInUp 0.4s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.4s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* ===== Scrollbar Styling ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--fallback-b2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--fallback-bc);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fallback-b3);
+}
+
+/* ===== Loading States ===== */
+.loading {
+  @apply transition-opacity duration-200;
+}
+
+/* ===== Focus States ===== */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary;
+}
+
+/* ===== Dark Mode Optimizations ===== */
+@media (prefers-color-scheme: dark) {
+  .card {
+    @apply border border-base-300;
+  }
+}
+
+/* ===== Responsive Improvements ===== */
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
+}
+
