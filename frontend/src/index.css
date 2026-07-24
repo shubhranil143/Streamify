@@ -1,18 +1,11 @@
-/* stylelint-disable at-rule-no-unknown, unknownAtRules */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-/* stylelint-enable at-rule-no-unknown, unknownAtRules */
-
 /* ===== Global Styles ===== */
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+html {
+  scroll-behavior: smooth;
+}
 
-  body {
-    @apply bg-base-100 text-base-content;
-  }
+body {
+  background-color: var(--fallback-b1);
+  color: var(--fallback-bc);
 }
 
 /* ===== Animations ===== */
@@ -58,10 +51,10 @@
 
 @keyframes glow {
   0%, 100% {
-    box-shadow: 0 0 5px rgba(var(--color-primary), 0.5);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.35);
   }
   50% {
-    box-shadow: 0 0 20px rgba(var(--color-primary), 0.8);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.55);
   }
 }
 
@@ -69,51 +62,50 @@
 
 /* Cards */
 .card {
-  @apply transition-all duration-300;
+  transition: all 0.3s ease;
 }
 
 .card:hover {
-  @apply shadow-lg;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 /* Buttons */
 .btn {
-  @apply transition-all duration-200;
+  transition: all 0.2s ease;
 }
 
 .btn:active {
-  @apply scale-95;
+  transform: scale(0.95);
 }
 
 /* Badges */
 .badge {
-  @apply transition-colors duration-200;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 /* Inputs */
 .input,
 .textarea,
 .select {
-  @apply transition-all duration-200;
+  transition: all 0.2s ease;
 }
 
 .input:focus,
 .textarea:focus,
 .select:focus {
-  @apply border-primary;
+  border-color: var(--fallback-p);
 }
 
 /* Avatar */
 .avatar {
-  @apply transition-transform duration-300;
+  transition: transform 0.3s ease;
 }
 
 .avatar:hover {
-  @apply scale-105;
+  transform: scale(1.05);
 }
 
 /* ===== Stream Chat Custom Styles ===== */
-
 .str-chat__channel {
   display: flex;
   align-items: center;
@@ -151,19 +143,21 @@
 }
 
 .str-chat__message-text {
-  @apply rounded-lg px-4 py-2 leading-relaxed;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  line-height: 1.625;
 }
 
 .str-chat__message--left .str-chat__message-text {
-  @apply bg-base-200;
+  background-color: var(--fallback-b2);
 }
 
 .str-chat__message--right .str-chat__message-text {
-  @apply bg-primary text-primary-content;
+  background-color: var(--fallback-p);
+  color: var(--fallback-pc);
 }
 
 /* ===== Utility Animations ===== */
-
 .animate-slide-in-up {
   animation: slideInUp 0.4s ease-out;
 }
@@ -205,25 +199,26 @@
 
 /* ===== Loading States ===== */
 .loading {
-  @apply transition-opacity duration-200;
+  transition: opacity 0.2s ease;
 }
 
 /* ===== Focus States ===== */
 :focus-visible {
-  @apply outline-2 outline-offset-2 outline-primary;
+  outline: 2px solid var(--fallback-p);
+  outline-offset: 2px;
 }
 
 /* ===== Dark Mode Optimizations ===== */
 @media (prefers-color-scheme: dark) {
   .card {
-    @apply border border-base-300;
+    border: 1px solid var(--fallback-b3);
   }
 }
 
 /* ===== Responsive Improvements ===== */
 @media (max-width: 640px) {
   .container {
-    @apply px-4;
+    padding-inline: 1rem;
   }
 }
 
