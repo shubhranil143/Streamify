@@ -1,5 +1,7 @@
 import { axiosInstance } from "./axios";
 
+// --- AUTHENTICATION API CALLS ---
+
 export const signup = async (signupData) => {
   const response = await axiosInstance.post("/auth/signup", signupData);
   return response.data;
@@ -9,18 +11,20 @@ export const login = async (loginData) => {
   const response = await axiosInstance.post("/auth/login", loginData);
   return response.data;
 };
+
 export const logout = async () => {
   const response = await axiosInstance.post("/auth/logout");
   return response.data;
 };
 
+// Check if user is currently authenticated by verifying cookie on backend
 export const getAuthUser = async () => {
   try {
     const res = await axiosInstance.get("/auth/me");
     return res.data;
   } catch (error) {
     console.log("Error in getAuthUser:", error);
-    return null;
+    return null; // Return null on 401/error instead of throwing, so auth state is cleanly resolved
   }
 };
 
@@ -28,6 +32,8 @@ export const completeOnboarding = async (userData) => {
   const response = await axiosInstance.post("/auth/onboarding", userData);
   return response.data;
 };
+
+// --- USER & SOCIAL API CALLS ---
 
 export async function getUserFriends() {
   const response = await axiosInstance.get("/users/friends");
@@ -59,6 +65,9 @@ export async function acceptFriendRequest(requestId) {
   return response.data;
 }
 
+// --- STREAM INTEGRATION API CALLS ---
+
+// Fetch signed Stream JWT token for the logged-in user
 export async function getStreamToken() {
   const response = await axiosInstance.get("/chat/token");
   return response.data;

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// FriendRequest Schema: tracks invitation state between two users (relational join document in MongoDB)
 const friendRequestSchema = new mongoose.Schema(
   {
     sender: {
@@ -14,12 +15,12 @@ const friendRequestSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["pending", "accepted"],
+      enum: ["pending", "accepted"], // Finite states: pending until recipient accepts
       default: "pending",
     },
   },
   {
-    timestamps: true,
+    timestamps: true, // Used for sorting notifications chronologically
   }
 );
 

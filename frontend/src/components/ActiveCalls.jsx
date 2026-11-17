@@ -4,13 +4,17 @@ import { Link } from "react-router";
 import { VideoIcon } from "lucide-react";
 import { useState } from "react";
 
+// Displays quick 1-click video call shortcuts to connected friends
 const ActiveCalls = () => {
   const [activeCalls] = useState([]);
 
+  // Fetch cached friends list to render direct call buttons
   const { data: friends = [] } = useQuery({
     queryKey: ["friends"],
     queryFn: getUserFriends,
   });
+
+  const safeFriends = Array.isArray(friends) ? friends.filter(Boolean) : [];
 
   return (
     <section className="space-y-6 animate-slide-in-up">
@@ -56,7 +60,7 @@ const ActiveCalls = () => {
 
       {/* Call Friends Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {friends.slice(0, 4).map((friend, index) => (
+        {safeFriends.slice(0, 4).map((friend, index) => (
           <div
             key={friend._id}
             className="card bg-base-100 border border-base-300 hover:shadow-lg hover:border-primary transition-all duration-300 overflow-hidden"
@@ -97,7 +101,7 @@ const ActiveCalls = () => {
       </div>
 
       {/* View All Link */}
-      {friends.length > 4 && (
+      {safeFriends.length > 4 && (
         <div className="text-center pt-4">
           <Link
             to="/"

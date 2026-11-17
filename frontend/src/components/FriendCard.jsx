@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import LanguageFlag from "./LanguageFlag";
 import { MessageCircle, VideoIcon } from "lucide-react";
 
+// Renders an individual friend profile card with native/learning badges, chat link, and direct call link
 const FriendCard = ({ friend }) => {
   return (
     <div className="card bg-base-100 border border-base-300 hover:border-primary hover:shadow-xl transition-all duration-300 group overflow-hidden">

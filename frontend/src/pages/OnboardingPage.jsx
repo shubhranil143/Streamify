@@ -10,6 +10,7 @@ const OnboardingPage = () => {
   const { authUser } = useAuthUser();
   const queryClient = useQueryClient();
 
+  // Populate form with any existing user data (e.g., initial fullName and avatar from signup)
   const [formState, setFormState] = useState({
     fullName: authUser?.fullName || "",
     bio: authUser?.bio || "",
@@ -19,13 +20,14 @@ const OnboardingPage = () => {
     profilePicture: authUser?.profilePicture || "",
   });
 
+  // Onboarding mutation updates the profile on MongoDB and Stream
   const { mutate: onboardingMutation, isPending } = useMutation({
     mutationFn: completeOnboarding,
     onSuccess: () => {
       toast.success("Profile onboarded successfully");
+      // Invalidating authUser updates authUser.isOnboarded to true, automatically unlocking the app routes
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
-
     onError: (error) => {
       toast.error(error.response.data.message);
     },
@@ -33,10 +35,10 @@ const OnboardingPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     onboardingMutation(formState);
   };
 
+  // Generate random avatar using DiceBear adventurer style with unique timestamp seed
   const handleRandomAvatar = () => {
     const seed = `${formState.fullName || "streamify-user"}-${Date.now()}`;
     const randomAvatar = `https://api.dicebear.com/9.x/adventurer/svg?seed=${encodeURIComponent(seed)}`;

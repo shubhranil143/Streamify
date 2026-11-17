@@ -1,22 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserFriends } from "../lib/api";
 import { Link, useParams } from "react-router";
-import useAuthUser from "../hooks/useAuthUser";
 import { SearchIcon, MessageCircleOff } from "lucide-react";
 import { useState } from "react";
 
+// Sidebar in ChatPage displaying list of friends with real-time search filtering
 const ConversationsSidebar = () => {
-  const { id: selectedUserId } = useParams();
-  const { authUser } = useAuthUser();
+  const { id: selectedUserId } = useParams(); // URL param matching active conversation partner
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Reuses the cached ["friends"] query without making redundant network calls
   const { data: friends = [], isLoading } = useQuery({
     queryKey: ["friends"],
     queryFn: getUserFriends,
   });
 
-  const filteredFriends = friends.filter((friend) =>
-    friend.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+  const safeFriends = Array.isArray(friends) ? friends.filter(Boolean) : [];
+
+  // Client-side search filtering by friend name
+  const filteredFriends = safeFriends.filter((friend) =>
+    friend?.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

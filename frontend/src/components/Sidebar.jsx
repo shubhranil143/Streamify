@@ -2,10 +2,11 @@ import { Link, useLocation } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
 import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
 
+// Desktop navigation sidebar with active route highlighting and user profile badge
 const Sidebar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
-  const currentPath = location.pathname;
+  const currentPath = location.pathname; // Used to mark active nav button (btn-active)
 
   return (
     <aside className="w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0">

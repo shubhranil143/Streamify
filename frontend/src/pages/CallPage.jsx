@@ -31,6 +31,7 @@ const CallPage = () => {
 
   const { authUser, isLoading } = useAuthUser();
 
+  // Retrieve user's Stream token to authenticate the video client
   const { data: tokenData } = useQuery({
     queryKey: ["streamToken"],
     queryFn: getStreamToken,
@@ -50,14 +51,17 @@ const CallPage = () => {
           image: authUser.profilePicture,
         };
 
+        // Initialize Stream Video Client (manages WebRTC media connections)
         const videoClient = new StreamVideoClient({
           apiKey: STREAM_API_KEY,
           user,
           token: tokenData.token,
         });
 
+        // Create or join the WebRTC call room with the given callId
         const callInstance = videoClient.call("default", callId);
 
+        // join({ create: true }) creates the room if it doesn't exist yet, or joins if it already does
         await callInstance.join({ create: true });
 
         console.log("Joined call successfully");
@@ -98,7 +102,7 @@ const CallPage = () => {
         <div className="w-10"></div>
       </div>
 
-      {/* Call Content */}
+      {/* Call Content: wraps Video UI inside StreamVideo and StreamCall providers */}
       <div className="flex-1 relative">
         {client && call ? (
           <StreamVideo client={client}>
@@ -116,19 +120,23 @@ const CallPage = () => {
   );
 };
 
+// Sub-component that consumes Stream Call hooks for participant layout and media controls
 const CallContent = ({ onEndCall }) => {
   const { useCallCallingState } = useCallStateHooks();
   const callingState = useCallCallingState();
   const navigate = useNavigate();
 
+  // If the user has left the call, automatically navigate back to home
   if (callingState === CallingState.LEFT) return navigate("/");
 
   return (
     <StreamTheme className="h-full">
       <div className="h-full flex flex-col">
+        {/* SpeakerLayout automatically focuses on whoever is actively talking */}
         <div className="flex-1">
           <SpeakerLayout />
         </div>
+        {/* CallControls provides microphone, camera, and leave call buttons */}
         <div className="bg-black bg-opacity-50 backdrop-blur p-4 flex justify-center gap-4">
           <CallControls onLeave={onEndCall} />
         </div>

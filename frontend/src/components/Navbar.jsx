@@ -4,9 +4,11 @@ import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import useLogout from "../hooks/useLogout";
 
+// Top navigation bar containing notifications link, theme selector, user avatar, and logout button
 const Navbar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
+  // Show logo inside navbar only when sidebar is hidden (e.g. on /chat pages)
   const isChatPage = location.pathname?.startsWith("/chat");
 
   const { logoutMutation } = useLogout();

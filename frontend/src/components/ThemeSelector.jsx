@@ -2,6 +2,7 @@ import { PaletteIcon } from "lucide-react";
 import { useThemeStore } from "../store/useThemeStore";
 import { THEMES } from "../constants";
 
+// Dropdown component that lists 32 DaisyUI themes and updates Zustand theme store
 const ThemeSelector = () => {
   const { theme, setTheme } = useThemeStore();
 

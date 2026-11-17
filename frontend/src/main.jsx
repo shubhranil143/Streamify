@@ -7,11 +7,14 @@ import { BrowserRouter } from 'react-router'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
+// Global QueryClient instance: manages caching, query deduplication, and background refetching
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    {/* Provide TanStack Query client to the entire component tree */}
     <QueryClientProvider client={queryClient}>
+      {/* HTML5 history API client-side router */}
       <BrowserRouter>
         <App />
       </BrowserRouter>

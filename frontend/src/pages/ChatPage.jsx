@@ -31,10 +31,11 @@ const ChatPage = () => {
 
   const { authUser } = useAuthUser();
 
+  // Dependent query: only fetch Stream token once authUser is loaded
   const { data: tokenData } = useQuery({
     queryKey: ["streamToken"],
     queryFn: getStreamToken,
-    enabled: !!authUser, // this will run only when authUser is available
+    enabled: !!authUser,
   });
 
   useEffect(() => {
@@ -44,8 +45,10 @@ const ChatPage = () => {
       try {
         console.log("Initializing stream chat client...");
 
+        // Initialize client with public API key
         const client = StreamChat.getInstance(STREAM_API_KEY);
 
+        // Connect user with credentials and signed token from our backend
         await client.connectUser(
           {
             id: authUser._id,
@@ -55,17 +58,15 @@ const ChatPage = () => {
           tokenData.token
         );
 
-        //
+        // Deterministic channelId: Sorting user IDs alphabetically ensures both users
+        // generate the exact same channel ID regardless of who opens the conversation first
         const channelId = [authUser._id, targetUserId].sort().join("-");
-
-        // you and me
-        // if i start the chat => channelId: [myId, yourId]
-        // if you start the chat => channelId: [yourId, myId]  => [myId,yourId]
 
         const currChannel = client.channel("messaging", channelId, {
           members: [authUser._id, targetUserId],
         });
 
+        // .watch() establishes WebSocket subscription for real-time messages & presence
         await currChannel.watch();
 
         setChatClient(client);
@@ -81,6 +82,7 @@ const ChatPage = () => {
     initChat();
   }, [tokenData, authUser, targetUserId]);
 
+  // Initiate a video call by posting a clickable deep-link into the 1-on-1 chat channel
   const handleVideoCall = () => {
     if (channel) {
       const callUrl = `${window.location.origin}/call/${channel.id}`;

@@ -6,11 +6,14 @@ import NoNotificationsFound from "../components/NoNotificationsFound";
 const NotificationsPage = () => {
   const queryClient = useQueryClient();
 
+  // Query to fetch incoming friend requests and accepted request alerts
   const { data: friendRequests, isLoading } = useQuery({
     queryKey: ["friendRequests"],
     queryFn: getFriendRequests,
   });
 
+  // Accepting a friend request invalidates both friendRequests (to remove pending card)
+  // and friends (to ensure Home & Chat pages immediately display the new friend)
   const { mutate: acceptRequestMutation, isPending } = useMutation({
     mutationFn: acceptFriendRequest,
     onSuccess: () => {
@@ -19,8 +22,12 @@ const NotificationsPage = () => {
     },
   });
 
-  const incomingRequests = friendRequests?.incomingReqs || [];
-  const acceptedRequests = friendRequests?.acceptedReqs || [];
+  const incomingRequests = (Array.isArray(friendRequests?.incomingReqs) ? friendRequests.incomingReqs : []).filter(
+    (req) => req?.sender
+  );
+  const acceptedRequests = (Array.isArray(friendRequests?.acceptedReqs) ? friendRequests.acceptedReqs : []).filter(
+    (req) => req?.recipient
+  );
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">

@@ -1,16 +1,18 @@
-import { VideoIcon, Phone, PhoneOff } from "lucide-react";
+import { VideoIcon, PhoneOff } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-function CallButton({ handleVideoCall, targetUser }) {
+// Floating action button rendered inside ChatPage to initiate or end video calls
+function CallButton({ handleVideoCall }) {
   const [isCallActive, setIsCallActive] = useState(false);
 
+  // Triggers video call link message in chat channel and sets local active state
   const onStartCall = () => {
     try {
       handleVideoCall();
       setIsCallActive(true);
       toast.success("Video call initiated!");
-    } catch (error) {
+    } catch {
       toast.error("Failed to start call");
     }
   };

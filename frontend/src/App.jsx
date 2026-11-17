@@ -16,17 +16,22 @@ import Layout from "./components/Layout.jsx";
 import { useThemeStore } from "./store/useThemeStore.js";
 
 const App = () => {
+  // Fetch logged-in user from /api/auth/me on initial app load
   const { isLoading, authUser } = useAuthUser();
+  // Get active DaisyUI theme from Zustand store (persisted in localStorage)
   const { theme } = useThemeStore();
 
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
 
+  // Show full-page spinner while verifying auth cookie with backend
   if (isLoading) return <PageLoader />;
 
   return (
+    // data-theme dynamically applies the selected DaisyUI theme to the entire app
     <div className="h-screen" data-theme={theme}>
       <Routes>
+        {/* Protected route: requires authentication AND completed onboarding */}
         <Route
           path="/"
           element={
@@ -39,6 +44,7 @@ const App = () => {
             )
           }
         />
+        {/* Public auth routes: redirect to app or onboarding if already logged in */}
         <Route
           path="/signup"
           element={
@@ -74,6 +80,7 @@ const App = () => {
           }
         />
 
+        {/* Chat page hides main sidebar to maximize screen space for Stream Chat UI */}
         <Route
           path="/chat/:id"
           element={
@@ -87,6 +94,7 @@ const App = () => {
           }
         />
 
+        {/* Onboarding route: only accessible to authenticated users who haven't completed profile setup */}
         <Route
           path="/onboarding"
           element={
@@ -103,6 +111,7 @@ const App = () => {
         />
       </Routes>
 
+      {/* Global toast notifications */}
       <Toaster />
     </div>
   );

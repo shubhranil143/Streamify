@@ -18,37 +18,48 @@ import ActiveCalls from "../components/ActiveCalls";
 
 const HomePage = () => {
   const queryClient = useQueryClient();
+  // Using a Set provides O(1) lookup time when checking if a user has a pending request
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
 
+  // Parallel data fetching: fetch user's current friends
   const { data: friends = [], isLoading: loadingFriends } = useQuery({
     queryKey: ["friends"],
     queryFn: getUserFriends,
   });
 
+  // Fetch recommended language partners (excluded friends and non-onboarded profiles)
   const { data: recommendedUsers = [], isLoading: loadingUsers } = useQuery({
     queryKey: ["users"],
     queryFn: getRecommendedUsers,
   });
 
+  // Fetch all pending outgoing requests sent by the logged-in user
   const { data: outgoingFriendReqs } = useQuery({
     queryKey: ["outgoingFriendReqs"],
     queryFn: getOutgoingFriendReqs,
   });
 
+  // Mutation to send a friend request, then invalidate outgoingFriendReqs to reflect state immediately
   const { mutate: sendRequestMutation, isPending } = useMutation({
     mutationFn: sendFriendRequest,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["outgoingFriendReqs"] }),
   });
 
+  // Synchronize outgoing request IDs into a Set for fast O(1) card lookups
   useEffect(() => {
     const outgoingIds = new Set();
-    if (outgoingFriendReqs && outgoingFriendReqs.length > 0) {
+    if (Array.isArray(outgoingFriendReqs) && outgoingFriendReqs.length > 0) {
       outgoingFriendReqs.forEach((req) => {
-        outgoingIds.add(req.recipient._id);
+        if (req?.recipient?._id) {
+          outgoingIds.add(req.recipient._id);
+        }
       });
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendReqs]);
+
+  const safeFriends = Array.isArray(friends) ? friends.filter(Boolean) : [];
+  const safeRecommendedUsers = Array.isArray(recommendedUsers) ? recommendedUsers.filter(Boolean) : [];
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -70,11 +81,11 @@ const HomePage = () => {
           <div className="flex justify-center py-12">
             <span className="loading loading-spinner loading-lg" />
           </div>
-        ) : friends.length === 0 ? (
+        ) : safeFriends.length === 0 ? (
           <NoFriendsFound />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {friends.map((friend) => (
+            {safeFriends.map((friend) => (
               <FriendCard key={friend._id} friend={friend} />
             ))}
           </div>
@@ -96,7 +107,7 @@ const HomePage = () => {
             <div className="flex justify-center py-12">
               <span className="loading loading-spinner loading-lg" />
             </div>
-          ) : recommendedUsers.length === 0 ? (
+          ) : safeRecommendedUsers.length === 0 ? (
             <div className="card bg-base-200 p-6 text-center">
               <h3 className="font-semibold text-lg mb-2">No recommendations available</h3>
               <p className="text-base-content opacity-70">
@@ -105,7 +116,7 @@ const HomePage = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recommendedUsers.map((user) => {
+              {safeRecommendedUsers.map((user) => {
                 const hasRequestBeenSent = outgoingRequestsIds.has(user._id);
 
                 return (
